@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+<div id="header" align="center">
+  <img src="src/assets/images/logo/fetch-logo.png" width="600"/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3>Frontend Take-Home Exercise</h3>
 
-## Available Scripts
+  ---
+</div>
 
-In the project directory, you can run:
+  ## Description:
 
-### `npm start`
+  Your task is to build a webpage with a user creation form. The form should take the following required inputs:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+  * Full Name
+  * Email
+  * Password 
+  * Occupation
+  * State
+  
+  Occupation and State should allow users to select from options returned by an endpoint. Users should only be able to select one occupation and one state. A GET request to https://frontend-take-home.fetchrewards.com/form will return a JSON body with the following format:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  ```{
+    "occupations": [
+        "occupation1",
+        "occupation2",
+        ...
+    ],
+    "states": [
+        {
+            "name": "Alabama",
+            "abbreviation": "AL"
+        },
+        ...
+    ]
+}
+```
 
-### `npm test`
+You should submit the results of the form to the same endpoint (https://frontend-take-home.fetchrewards.com/form) via a POST request with a JSON body of the following format:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+{
+    "name": "???",
+    "email": "???",
+    "password": "???",
+    "occupation": "???",
+    "state": "???"
+}
+```
 
-### `npm run build`
+The POST endpoint will return a 201 status code if all fields are provided. The response body will be the created user object. It does not perform any validation beyond this.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Table of Contents:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  * [Technologies Used](#technologies-used)
+  * [Concept](#concept)
+  * [Usage](#usage)
+  * [Contact](#contact)
 
-### `npm run eject`
+## Technologies Used
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+ <a target="_blank" rel="noopener noreferrer" href="https://vuejs.org/">
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Badge" style="max-width: 100%;">
+ </a>
+ <a target="_blank" rel="noopener noreferrer" href="https://sass-lang.com/">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS Badge" style="max-width: 100%;">
+ </a>
+ <a target="_blank" rel="noopener noreferrer" href="https://jestjs.io/docs/getting-started">
+    <img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="Jest Badge" style="max-width: 100%;">
+ </a>
+ <a target="_blank" rel="noopener noreferrer" href="https://www.figma.com/">
+    <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" alt="Figma Badge" style="max-width: 100%;">
+ </a>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Concept:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Mobile Design
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![Fetch Mobile Design](./src/assets/images/design/fetch-app-prototype.jpg)
 
-## Learn More
+### Website Design
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![Fetch Web Design](./src/assets/images/design/fetch-website-prototype.jpg)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Site Analysis
 
-### Code Splitting
+![Fetch Site Analysis](./src/assets/images/design/fetch-site-analysis.jpg)
+ 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Usage:
 
-### Analyzing the Bundle Size
+A user can sign up by filling in the input fields: First name, last name, occupation, state, email, and password; and cannot submit the form without completing the entire form. Occupation and State dropdown options are from returned endpoint GET request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Form includes password validation feedback for password requirements and feedback on a successful submission POST request to the same endpoint.
 
-### Making a Progressive Web App
+## Contact:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Brianna Woodruff  
 
-### Advanced Configuration
+briannaewoodruff@gmail.com
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/briannawoodruff">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" style="max-width: 100%;">
+</a>
+<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/briannaewoodruff/">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" style="max-width: 100%;">
+</a>
+<a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/briannaewoodruff/">
+    <img src="https://img.shields.io/badge/Portfolio-EA4C89?style=for-the-badge&logo=About.me&logoColor=white" alt="Portfolio" style="max-width: 100%;">
+</a>
