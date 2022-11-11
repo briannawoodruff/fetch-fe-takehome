@@ -30,15 +30,26 @@ export default function SignUp() {
     const [selectedState, setSelectedState] = useState(states[1])
 
     const [formState, setFormState] = useState({
+        name: '',
+        occupation: '',
+        state: '',
         email: '',
         password: '',
     });
 
+    // Handles Password Validation
     const [passwordVal, setPasswordVal] = useState({
         firstPassword: "",
         password: "",
     });
-
+    const setName = (event) => {
+        setFullName({ ...fullName, firstName: event.target.value });
+    };
+    // Handles Name Inputs
+    const [fullName, setFullName] = useState({
+        firstName: "",
+        lastName: "",
+    });
     const setFirst = (event) => {
         setPasswordVal({ ...passwordVal, firstPassword: event.target.value });
     };
@@ -50,13 +61,21 @@ export default function SignUp() {
             ...formState,
             [name]: value,
         });
-        // setAlert(false)
 
         if (name === "password") {
             setPasswordVal({ ...passwordVal, password: event.target.value });
         }
+        if (name === "name") {
+            setFullName({ ...fullName, lastName: event.target.value })
+
+            setFormState({
+                ...formState,
+                name: `${fullName.firstName} ${fullName.lastName}`
+            })
+        }
     };
 
+    // usePasswordValidation Hook
     const [
         validLength,
         hasNumber,
@@ -78,7 +97,6 @@ export default function SignUp() {
             return 'border-red-500 focus:border-red-500 focus:ring-red-500 mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none'
         }
     }
-
 
     return (
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
@@ -102,10 +120,12 @@ export default function SignUp() {
                                         </label>
                                         <input
                                             type="text"
-                                            name="first-name"
+                                            name="name"
                                             id="first-name"
                                             placeholder="First name"
                                             autoComplete="given-name"
+                                            onChange={setName}
+                                            value={fullName.firstName}
                                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-eggplant-800 sm:text-sm"
                                         />
                                     </div>
@@ -117,10 +137,12 @@ export default function SignUp() {
                                         </label>
                                         <input
                                             type="text"
-                                            name="last-name"
+                                            name="name"
                                             id="last-name"
                                             placeholder="Last name"
                                             autoComplete="family-name"
+                                            onChange={handleChange}
+                                            value={fullName.lastName}
                                             required
                                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-eggplant-800 sm:text-sm"
                                         />
@@ -153,6 +175,7 @@ export default function SignUp() {
                                                                 {occupation.map((job) => (
                                                                     <Listbox.Option
                                                                         key={job.id}
+                                                                        id="occupation"
                                                                         className={({ active }) =>
                                                                             classNames(
                                                                                 active ? 'text-black bg-squash-500' : 'text-gray-900',
@@ -163,7 +186,7 @@ export default function SignUp() {
                                                                     >
                                                                         {({ selectedOccupation, active }) => (
                                                                             <>
-                                                                                <span className={classNames(selectedOccupation ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                                                                <span onChange={handleChange} className={classNames(selectedOccupation ? 'font-semibold' : 'font-normal', 'block truncate')}>
                                                                                     {job.name}
                                                                                 </span>
 
@@ -214,6 +237,7 @@ export default function SignUp() {
                                                                 {states.map((state) => (
                                                                     <Listbox.Option
                                                                         key={state.id}
+                                                                        id="state"
                                                                         className={({ active }) =>
                                                                             classNames(
                                                                                 active ? 'text-black bg-squash-500' : 'text-gray-900',
@@ -258,10 +282,12 @@ export default function SignUp() {
                                     </label>
                                     <input
                                         type="text"
-                                        name="email-address"
-                                        id="email-address"
+                                        name="email"
+                                        id="email"
                                         placeholder="Email"
                                         autoComplete="email"
+                                        onChange={handleChange}
+                                        value={formState.email}
                                         required
                                         className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-eggplant-800 sm:text-sm"
                                     />
