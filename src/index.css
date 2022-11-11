@@ -12,6 +12,26 @@ code {
     monospace;
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: .6vh;
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c3b5cc;
+  border-radius: .6vh;
+  border: 1px solid #f7f4ed;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc0d4;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
