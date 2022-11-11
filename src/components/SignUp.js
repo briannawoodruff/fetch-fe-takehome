@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react'
+import { usePasswordValidation } from "../hooks/usePasswordValidation";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import FetchLogo from '../assets/images/logo/fetch-rewards-logo-transparent.png'
@@ -28,6 +29,57 @@ export default function SignUp() {
     const [selectedOccupation, setSelectedOccupation] = useState(occupation[1])
     const [selectedState, setSelectedState] = useState(states[1])
 
+    const [formState, setFormState] = useState({
+        email: '',
+        password: '',
+    });
+
+    const [passwordVal, setPasswordVal] = useState({
+        firstPassword: "",
+        password: "",
+    });
+
+    const setFirst = (event) => {
+        setPasswordVal({ ...passwordVal, firstPassword: event.target.value });
+    };
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+        // setAlert(false)
+
+        if (name === "password") {
+            setPasswordVal({ ...passwordVal, password: event.target.value });
+        }
+    };
+
+    const [
+        validLength,
+        hasNumber,
+        hasLetter,
+        match,
+        specialChar,
+    ] = usePasswordValidation({
+        firstPassword: passwordVal.firstPassword,
+        confirmPassword: passwordVal.password,
+    });
+
+    // dynamically sets borders for password validation
+    const btnClass = () => {
+        if (match === null) {
+            return 'border-gray-300 focus:border-eggplant-800 focus:ring-eggplant-800 mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none'
+        } else if (match) {
+            return 'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500 mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none'
+        } else {
+            return 'border-red-500 focus:border-red-500 focus:ring-red-500 mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none'
+        }
+    }
+
+
     return (
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
             <div className="space-y-6 sm:px-6 lg:col-span-9">
@@ -54,7 +106,7 @@ export default function SignUp() {
                                             id="first-name"
                                             placeholder="First name"
                                             autoComplete="given-name"
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-eggplant-800 sm:text-sm"
                                         />
                                     </div>
 
@@ -69,7 +121,8 @@ export default function SignUp() {
                                             id="last-name"
                                             placeholder="Last name"
                                             autoComplete="family-name"
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            required
+                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-eggplant-800 sm:text-sm"
                                         />
                                     </div>
                                 </div>
@@ -82,7 +135,7 @@ export default function SignUp() {
                                                 <>
                                                     <Listbox.Label className="hidden text-sm font-medium text-gray-700">Occupation</Listbox.Label>
                                                     <div className="relative mt-1">
-                                                        <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                                                        <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-1 focus:ring-eggplant-800 sm:text-sm">
                                                             <span className="block truncate">{selectedOccupation.name}</span>
                                                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -102,7 +155,7 @@ export default function SignUp() {
                                                                         key={job.id}
                                                                         className={({ active }) =>
                                                                             classNames(
-                                                                                active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                                                                active ? 'text-black bg-squash-500' : 'text-gray-900',
                                                                                 'relative cursor-default select-none py-2 pl-3 pr-9'
                                                                             )
                                                                         }
@@ -117,7 +170,7 @@ export default function SignUp() {
                                                                                 {selectedOccupation ? (
                                                                                     <span
                                                                                         className={classNames(
-                                                                                            active ? 'text-white' : 'text-indigo-600',
+                                                                                            active ? 'text-black' : 'text-squash-500',
                                                                                             'absolute inset-y-0 right-0 flex items-center pr-4'
                                                                                         )}
                                                                                     >
@@ -143,7 +196,7 @@ export default function SignUp() {
                                                 <>
                                                     <Listbox.Label className="hidden text-sm font-medium text-gray-700">State</Listbox.Label>
                                                     <div className="relative mt-1">
-                                                        <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+                                                        <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-1 focus:ring-eggplant-800 sm:text-sm">
                                                             <span className="block truncate">{selectedState.name}</span>
                                                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                                                 <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -163,7 +216,7 @@ export default function SignUp() {
                                                                         key={state.id}
                                                                         className={({ active }) =>
                                                                             classNames(
-                                                                                active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                                                                active ? 'text-black bg-squash-500' : 'text-gray-900',
                                                                                 'relative cursor-default select-none py-2 pl-3 pr-9'
                                                                             )
                                                                         }
@@ -178,7 +231,7 @@ export default function SignUp() {
                                                                                 {selectedState ? (
                                                                                     <span
                                                                                         className={classNames(
-                                                                                            active ? 'text-white' : 'text-indigo-600',
+                                                                                            active ? 'text-black' : 'text-squash-500',
                                                                                             'absolute inset-y-0 right-0 flex items-center pr-4'
                                                                                         )}
                                                                                     >
@@ -209,7 +262,8 @@ export default function SignUp() {
                                         id="email-address"
                                         placeholder="Email"
                                         autoComplete="email"
-                                        className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                        required
+                                        className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-eggplant-800 sm:text-sm"
                                     />
                                 </div>
 
@@ -219,12 +273,14 @@ export default function SignUp() {
                                         Password
                                     </label>
                                     <input
-                                        type="text"
+                                        type="password"
                                         name="password"
                                         id="password"
                                         placeholder="Password"
-                                        autoComplete="password"
-                                        className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                        autoComplete="new-password"
+                                        onChange={setFirst}
+                                        required
+                                        className={classNames(btnClass())}
                                     />
                                 </div>
 
@@ -234,24 +290,27 @@ export default function SignUp() {
                                         Confirm Password
                                     </label>
                                     <input
-                                        type="text"
-                                        name="confirm-password"
+                                        type="password"
+                                        name="password"
                                         id="confirm-password"
                                         placeholder="Confirm Password"
-                                        autoComplete="confirm-password"
-                                        className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                        autoComplete="new-password"
+                                        value={formState.password}
+                                        onChange={handleChange}
+                                        required
+                                        className={classNames(btnClass())}
                                     />
                                 </div>
 
                                 {/* Verification */}
-                                <div className="col-span-6 sm:col-span-6 flex flex-col text-sm -mt-2">
-                                    <div className="flex justify-evenly my-1">
-                                        <p><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a number</p>
-                                        <p><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a letter</p>
+                                <div className="col-span-6 sm:col-span-6 flex flex-col m-auto text-sm -mt-2 w-full">
+                                    <div className="flex flex-row justify-between">
+                                        <p className={hasNumber ? "text-emerald-500 ml-4" : "text-red-500 ml-4"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a number</p>
+                                        <p className={hasLetter ? "text-emerald-500 mr-6" : "text-red-500 mr-6"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a letter</p>
                                     </div>
-                                    <div className="flex justify-evenly my-1">
-                                        <p><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has special characters</p>
-                                        <p><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has 6 characters</p>
+                                    <div className="flex flex-row justify-between">
+                                        <p className={specialChar ? "text-emerald-500 ml-4" : "text-red-500 ml-4"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has special characters</p>
+                                        <p className={validLength ? "text-emerald-500 mr-5" : "text-red-500 mr-5"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has 8 characters</p>
                                     </div>
                                 </div>
                             </div>
