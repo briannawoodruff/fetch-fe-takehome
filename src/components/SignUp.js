@@ -45,16 +45,16 @@ export default function SignUp({ setAlert, setSuccess }) {
         firstPassword: "",
         password: "",
     });
-    const setName = (event) => {
-        setFullName({ ...fullName, firstName: event.target.value });
+    const setFirst = (event) => {
+        setPasswordVal({ ...passwordVal, firstPassword: event.target.value });
     };
     // Handles Name Inputs
     const [fullName, setFullName] = useState({
         firstName: "",
         lastName: "",
     });
-    const setFirst = (event) => {
-        setPasswordVal({ ...passwordVal, firstPassword: event.target.value });
+    const setName = (event) => {
+        setFullName({ ...fullName, firstName: event.target.value });
     };
 
     // usePasswordValidation Hook
@@ -103,6 +103,26 @@ export default function SignUp({ setAlert, setSuccess }) {
         }
     }
 
+    const reset = () => {
+        setFormState({
+            name: '',
+            occupation: '',
+            state: '',
+            email: '',
+            password: '',
+        })
+        setFullName({
+            firstName: '',
+            lastName: '',
+        })
+        setPasswordVal({
+            firstPassword: '',
+            password: '', 
+        })
+        setSelectedOccupation(occupationList[5])
+        setSelectedState(stateList[13].abbreviation)
+    }
+
     // Handles Form Submit
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -117,6 +137,8 @@ export default function SignUp({ setAlert, setSuccess }) {
 
                 setSuccess(true)
                 setAlert(true)
+
+                reset()
             } catch (e) {
                 console.error(e);
                 setSuccess(false)
@@ -340,6 +362,7 @@ export default function SignUp({ setAlert, setSuccess }) {
                                         id="password"
                                         placeholder="Password"
                                         autoComplete="new-password"
+                                        value={passwordVal.firstPassword}
                                         onChange={setFirst}
                                         required
                                         className={classNames(btnClass())}
