@@ -5,8 +5,6 @@ export const API = () => {
 
     const [occupationList, setOccupationsList] = useState([])
     const [stateList, setStates] = useState([])
-    const [selectedOccupation, setSelectedOccupation] = useState([])
-    const [selectedState, setSelectedState] = useState("")
 
     useEffect(() => {
         const fetchOccupations = async () => {
@@ -16,14 +14,15 @@ export const API = () => {
                 );
                 const { occupations } = res.data;
 
-                setOccupationsList(occupations)
-                setSelectedOccupation(occupations[5])
+                if (occupationList.length === 0) {
+                    setOccupationsList(occupations)
+                }
             } catch (e) {
                 console.log(e);
             }
         };
         fetchOccupations()
-    }, []);
+    }, [occupationList]);
 
     useEffect(() => {
         const fetchStates = async () => {
@@ -33,14 +32,25 @@ export const API = () => {
                 );
                 const { states } = res.data;
 
-                setStates(states)
-                setSelectedState(states[13].abbreviation)
+                if (stateList.length === 0) {
+                    setStates(states)
+                }
             } catch (e) {
                 console.log(e);
             }
         };
         fetchStates()
-    }, []);
-    
-    return [occupationList, stateList, selectedOccupation, selectedState, setSelectedOccupation, setSelectedOccupation];
+    }, [stateList]);
+
+    const postUser = async (newUser) => {
+        try {
+            const resp = await axios.post("https://frontend-take-home.fetchrewards.com/form", newUser)
+
+            return resp
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    return [occupationList, stateList, postUser];
 }

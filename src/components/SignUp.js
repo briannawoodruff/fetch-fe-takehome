@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { usePasswordValidation } from "../hooks/usePasswordValidation";
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -10,6 +10,8 @@ function classNames(...classes) {
 }
 
 export default function SignUp({ setAlert, setSuccess }) {
+    const [selectedOccupation, setSelectedOccupation] = useState([])
+    const [selectedState, setSelectedState] = useState("")
     // Form Submission
     const [formState, setFormState] = useState({
         name: '',
@@ -23,11 +25,20 @@ export default function SignUp({ setAlert, setSuccess }) {
     const [
         occupationList,
         stateList,
-        selectedOccupation,
-        selectedState,
-        setSelectedOccupation,
-        setSelectedState
+        postUser
     ] = API()
+
+    // Sets first loaded variables
+    useEffect(() => {
+        if (occupationList.length > 0) {
+            setSelectedOccupation(occupationList[5])
+        }
+    }, [occupationList])
+    useEffect(() => {
+        if (stateList.length > 0) {
+            setSelectedState(stateList[13].abbreviation)
+        }
+    }, [stateList])
 
     // Handles Password Validation
     const [passwordVal, setPasswordVal] = useState({
@@ -98,10 +109,18 @@ export default function SignUp({ setAlert, setSuccess }) {
         // IF password requirments are met
         if (validLength && hasNumber && hasLetter && match && specialChar) {
             try {
+                postUser({
+                    ...formState,
+                    occupation: selectedOccupation,
+                    state: selectedState,
+                })
+
                 setSuccess(true)
                 setAlert(true)
             } catch (e) {
                 console.error(e);
+                setSuccess(false)
+                setAlert(true)
             }
             // ELSE send failed alert
         } else {
