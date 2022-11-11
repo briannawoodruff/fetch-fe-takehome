@@ -95,11 +95,11 @@ export default function SignUp({ setAlert, setSuccess }) {
     // dynamically sets borders for password validation
     const btnClass = () => {
         if (match === null) {
-            return 'border-gray-300 focus:border-eggplant-800 focus:ring-eggplant-800 bg-neutral-50 placeholder-neutral-600 text-black mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none'
+            return 'border-gray-300 focus:border-eggplant-800 focus:ring-eggplant-800 bg-neutral-50'
         } else if (match) {
-            return 'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500 bg-neutral-50 placeholder-neutral-600 text-black mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none'
+            return 'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500 bg-neutral-50'
         } else {
-            return 'border-red-500 focus:border-red-500 focus:ring-red-500 bg-neutral-50 placeholder-neutral-600 text-black mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none'
+            return 'border-red-500 focus:border-red-500 focus:ring-red-500 bg-neutral-50'
         }
     }
 
@@ -117,7 +117,7 @@ export default function SignUp({ setAlert, setSuccess }) {
         })
         setPasswordVal({
             firstPassword: '',
-            password: '', 
+            password: '',
         })
         setSelectedOccupation(occupationList[5])
         setSelectedState(stateList[13].abbreviation)
@@ -155,11 +155,11 @@ export default function SignUp({ setAlert, setSuccess }) {
         <div className="lg:grid lg:grid-cols-8 lg:gap-x-5">
             <div className="space-y-6 sm:px-6 lg:col-span-9">
                 <form onSubmit={handleFormSubmit}>
-                    <div className="lg:shadow-md lg:rounded-md lg:border-neutral-200 lg:border-2 sm:shadow-none">
+                    <div className="lg:shadow-md lg:rounded-md lg:border-neutral-200 lg:border-2 sm:shadow-none bg-white">
                         <div className="space-y-6 py-6 px-6 sm:p-6">
                             <div className='flex flex-col justify-center w-full'>
                                 <div className='m-auto'>
-                                    <img className="my-6 h-40 w-40" src={FetchLogo} alt='Fetch Rewards Logo'></img>
+                                    <img className="my-6" src={FetchLogo} height={147} width={160} alt='Fetch Rewards Logo'></img>
                                 </div>
                                 <h3 className="mt-2 text-lg font-medium leading-6 text-gray-900">Sign Up</h3>
                             </div>
@@ -239,13 +239,13 @@ export default function SignUp({ setAlert, setSuccess }) {
                                                                             }
                                                                             value={job}
                                                                         >
-                                                                            {({ selectedOccupation, active }) => (
+                                                                            {({ selected, active }) => (
                                                                                 <>
-                                                                                    <span onChange={handleChange} className={classNames(selectedOccupation ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                                                                    <span onChange={handleChange} className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
                                                                                         {job}
                                                                                     </span>
 
-                                                                                    {selectedOccupation ? (
+                                                                                    {selected ? (
                                                                                         <span
                                                                                             className={classNames(
                                                                                                 active ? 'text-black' : 'text-squash-500',
@@ -303,13 +303,13 @@ export default function SignUp({ setAlert, setSuccess }) {
                                                                             }
                                                                             value={state.abbreviation}
                                                                         >
-                                                                            {({ selectedState, active }) => (
+                                                                            {({ selected, active }) => (
                                                                                 <>
-                                                                                    <span className={classNames(selectedState ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                                                                    <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
                                                                                         {state.abbreviation}
                                                                                     </span>
 
-                                                                                    {selectedState ? (
+                                                                                    {selected ? (
                                                                                         <span
                                                                                             className={classNames(
                                                                                                 active ? 'text-black' : 'text-squash-500',
@@ -365,7 +365,7 @@ export default function SignUp({ setAlert, setSuccess }) {
                                         value={passwordVal.firstPassword}
                                         onChange={setFirst}
                                         required
-                                        className={classNames(btnClass())}
+                                        className={classNames(btnClass(), 'text-black mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none placeholder-neutral-600')}
                                     />
                                 </div>
 
@@ -383,19 +383,19 @@ export default function SignUp({ setAlert, setSuccess }) {
                                         value={formState.password}
                                         onChange={handleChange}
                                         required
-                                        className={classNames(btnClass())}
+                                        className={classNames(btnClass(), 'text-black mt-1 block w-full rounded-md border py-2 px-3 shadow-sm sm:text-sm focus:outline-none placeholder-neutral-600')}
                                     />
                                 </div>
 
                                 {/* Verification */}
                                 <div className="col-span-6 sm:col-span-6 flex flex-col m-auto text-sm -mt-2 w-full">
                                     <div className="flex flex-row justify-between">
-                                        <p className={hasNumber ? "text-emerald-500 ml-4" : "text-red-500 ml-4"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a number</p>
-                                        <p className={hasLetter ? "text-emerald-500 mr-6" : "text-red-500 mr-6"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a letter</p>
+                                        <p className={hasNumber ? "text-emerald-500 ml-4" : "text-red-600 ml-4"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a number</p>
+                                        <p className={hasLetter ? "text-emerald-500 mr-6" : "text-red-600 mr-6"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Includes a letter</p>
                                     </div>
                                     <div className="flex flex-row justify-between">
-                                        <p className={specialChar ? "text-emerald-500 ml-4" : "text-red-500 ml-4"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has special characters</p>
-                                        <p className={validLength ? "text-emerald-500 mr-5" : "text-red-500 mr-5"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has 8 characters</p>
+                                        <p className={specialChar ? "text-emerald-500 ml-4" : "text-red-600 ml-4"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has special characters</p>
+                                        <p className={validLength ? "text-emerald-500 mr-5" : "text-red-600 mr-5"}><CheckIcon className="inline pb-1 h-5 w-5" aria-hidden="true" />Has 8 characters</p>
                                     </div>
                                 </div>
                             </div>
