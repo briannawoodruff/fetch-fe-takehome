@@ -9,7 +9,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function SignUp() {
+export default function SignUp({ setAlert, setSuccess }) {
     // Form Submission
     const [formState, setFormState] = useState({
         name: '',
@@ -66,6 +66,7 @@ export default function SignUp() {
             ...formState,
             [name]: value,
         });
+        setAlert(false)
 
         if (name === "password") {
             setPasswordVal({ ...passwordVal, password: event.target.value });
@@ -91,11 +92,29 @@ export default function SignUp() {
         }
     }
 
+    // Handles Form Submit
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        // IF password requirments are met
+        if (validLength && hasNumber && hasLetter && match && specialChar) {
+            try {
+                setSuccess(true)
+                setAlert(true)
+            } catch (e) {
+                console.error(e);
+            }
+            // ELSE send failed alert
+        } else {
+            setSuccess(false)
+            setAlert(true)
+        }
+    };
+
     return (
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
+        <div className="lg:grid lg:grid-cols-8 lg:gap-x-5">
             <div className="space-y-6 sm:px-6 lg:col-span-9">
-                <form action="#" method="POST">
-                    <div className="lg:shadow-md lg:rounded-md border-neutral-200 border-2 sm:shadow-none">
+                <form onSubmit={handleFormSubmit}>
+                    <div className="lg:shadow-md lg:rounded-md lg:border-neutral-200 lg:border-2 sm:shadow-none">
                         <div className="space-y-6 py-6 px-6 sm:p-6">
                             <div className='flex flex-col justify-center w-full'>
                                 <div className='m-auto'>
@@ -119,6 +138,7 @@ export default function SignUp() {
                                             autoComplete="given-name"
                                             onChange={setName}
                                             value={fullName.firstName}
+                                            required
                                             className="mt-1 block w-full bg-neutral-50 placeholder-neutral-600 text-black rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-eggplant-800 focus:outline-none focus:ring-eggplant-800 sm:text-sm"
                                         />
                                     </div>
